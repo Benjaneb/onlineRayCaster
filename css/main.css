@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
+
+:root {
+    font-size: 18px;
+    font-family: 'Roboto Mono';
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    height: 100vh;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    width: 100vw;
+    position: absolute;
+    background-color: rgba(200,200,200,0.3);
+    box-shadow: 0 1em 1.5em rgba(200,200,200,0.3);
+    margin-top: -9.5em;
+    transition: margin-top 300ms;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+header:hover {
+    margin-top: 0;
+}
+
+header:hover .fa-chevron-down {
+    transform: rotate(180deg);
+}
+
+header > div {
+    width: 100%;
+    padding: 1em;
+    align-self: flex-start;
+    display: flex;
+    align-items: center;
+}
+
+.controls {
+    margin-left: auto;
+}
+
+.controls h3 {
+    margin: 0;
+}
+
+.fa-chevron-down {
+    font-size: 1.5rem;
+    transition: transform 300ms;
+}
+
+#rayCaster {
+    width: 100vw;
+    height: 100vh;
+    background-color: white;
+}
