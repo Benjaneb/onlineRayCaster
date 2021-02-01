@@ -1,3 +1,5 @@
+"using strict";
+
 let map =
 	[
 		['&', '&', '&', '&', '&', '&', '&', '&', '&', '&', '&', '&', '&', '&', '&', '&', '&', '&', '&', '&', '&', '&', '&', '&', '&', '&', '&', '&', '&', '&', '&', '&'],
@@ -55,9 +57,11 @@ function setup() {
 function draw() {
 	let cosAngle = Math.cos(playerAngle);
 	let sinAngle = Math.sin(playerAngle);
-	background(0);
-	Controls(cosAngle, sinAngle);
-	RayCaster(cosAngle, sinAngle);
+	if(playGame) {
+		background(0);
+		Controls(cosAngle, sinAngle);
+		RayCaster(cosAngle, sinAngle);
+	}
 }
 
 function windowResized() {

@@ -8,11 +8,19 @@
     <script src="https://kit.fontawesome.com/40670935a6.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/p5@1.2.0/lib/p5.js"></script>
     <script src="js/sketch.js"></script>
+    <script src="js/main.js"></script>
 </head>
 <body>
     <header>
         <div>
             <h1>Online Ray Caster</h1>
+            <button onclick="toggleControls()" class="header-controls">Controls</button>
+        </div>
+        <i class="fas fa-chevron-down"></i>
+    </header>
+    <main>
+        <p id="noSupport" class="hide">Your browser does not support canvas.</p>
+        <div class="controls-background hide">
             <div class="controls">
                 <h3>Controls</h3>
                 <ul>
@@ -20,12 +28,9 @@
                     <li>LEFT/RIGHT - Turn left/right</li>
                     <li>WASD - Walk forwards, left,<br>backwards & right</li>
                 </ul>
+                <button onclick="toggleControls()">Close</button>
             </div>
         </div>
-        <i class="fas fa-chevron-down"></i>
-    </header>
-    <main>
-        <p id="noSupport" class="hide">Your browser does not support canvas.</p>
     </main>
 </body>
 </html>

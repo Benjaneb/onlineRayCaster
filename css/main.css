@@ -22,7 +22,7 @@ header {
   position: absolute;
   background-color: rgba(200, 200, 200, 0.5);
   box-shadow: 0 1em 1.5em rgba(200, 200, 200, 0.5);
-  margin-top: -9.5em;
+  margin-top: -5.5em;
   transition: margin-top 300ms;
   display: flex;
   flex-direction: column;
@@ -45,17 +45,57 @@ header > div {
   align-items: center;
 }
 
-.controls {
+.header-controls {
+  all: unset;
   margin-left: auto;
+  font-size: 1.8em;
+  font-weight: bold;
+  transition: background-color 200ms;
+  border-radius: 0.5em;
+  padding: 0.2em;
+}
+
+.header-controls:hover {
+  background-color: rgba(200, 200, 200, 0.6);
+  text-decoration: underline;
+}
+
+.fa-chevron-down {
+  font-size: 1.5rem;
+  transition: transform 300ms;
+}
+
+.controls {
+  background-color: white;
+  padding: 2em;
+  border-radius: 1em;
+  box-shadow: rgb(37, 37, 37) 0.4em 0.4em 0.4em;
+  display: flex;
+  flex-direction: column;
+}
+
+.controls button {
+  padding: 0.5em;
+  background-color: rgb(226, 93, 69);
+  border-radius: 0.4em;
+  font-size: 1em;
+  outline: none;
+  align-self: flex-end;
 }
 
 .controls h3 {
   margin: 0;
 }
 
-.fa-chevron-down {
-  font-size: 1.5rem;
-  transition: transform 300ms;
+.controls-background {
+  all: unset;
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .hide {
