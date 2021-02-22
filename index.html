@@ -2,33 +2,53 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Ray Caster</title>
+    <title>Online Raycaster</title>
+    <link rel="icon" href="images/favicon.png" type="image/png">
     <link rel="stylesheet" href="css/main.css">
     <script src="https://kit.fontawesome.com/40670935a6.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/p5@1.2.0/lib/p5.js"></script>
     <script src="js/sketch.js"></script>
     <script src="js/main.js"></script>
 </head>
-<body>
+<body class="raycaster">
     <header>
         <div>
-            <h1>Online Ray Caster</h1>
-            <button onclick="toggleControls()" class="header-controls">Controls</button>
+            <div class="under-header">
+                <h1>Online Raycaster</h1>
+                <i onclick="toggleNewUser()" class="far fa-question-circle"></i>
+                <p class="signing">By Benjamin Widman</p>
+            </div>
+            <a href="raycasting-about.html" class="nav">About Raycasting</a>
+            <div>
+                <button onclick="toggleControls()" class="header-controls">Controls</button>
+                <a href="https://github.com/Benjaneb" target="_blank" class="github"><i class="fab fa-github"></i></a>
+            </div>
         </div>
         <i class="fas fa-chevron-down"></i>
     </header>
     <main>
+        <noscript>Your browser does not support JavaScript.</noscript>
         <p id="noSupport" class="hide">Your browser does not support canvas.</p>
-        <div class="controls-background hide">
-            <div class="controls">
+        <div class="new-user popup-background hide">
+            <div class="popup">
+                <p>Hello there!👋</p>
+                <p>It seems you are new to this site, so let me introduce you.</p>
+                <p>This is an online raycaster written in JavaScript, with the help of the <a href="https://p5js.org/" target="_blank">P5 library</a>.</p>
+                <p>If you are curious about what a raycaster is, please read <a href="raycasting-about.html">my summary</a> of it.</p>
+                <button onclick="toggleNewUser()" class="close-button">Close</button>
+            </div>
+        </div>
+        <div class="controls popup-background hide">
+            <div class="popup">
                 <h3>Controls</h3>
                 <ul>
                     <li>F11 - Fullscreen</li>
                     <li>LEFT/RIGHT - Turn left/right</li>
                     <li>WASD - Walk forwards, left,<br>backwards & right</li>
                 </ul>
-                <button onclick="toggleControls()">Close</button>
+                <button onclick="toggleControls()" class="close-button">Close</button>
             </div>
         </div>
     </main>

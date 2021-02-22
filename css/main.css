@@ -10,11 +10,41 @@
 }
 
 body {
-  width: 100vw;
-  height: 100vh;
+  max-width: 100vw;
+  min-height: 100vh;
   margin: 0;
   padding: 0;
-  overflow: hidden;
+  overflow-x: hidden;
+}
+
+.raycaster {
+  overflow-y: hidden;
+}
+
+a {
+  text-decoration: none;
+  color: crimson;
+  text-decoration: underline;
+  text-decoration-color: white;
+  transition: text-decoration-color 0.25s;
+}
+
+a:hover {
+  text-decoration-color: crimson;
+}
+
+h2 {
+  font-size: 2rem;
+  border-bottom: solid grey 1px;
+  padding-bottom: 0.5em;
+}
+
+p {
+  max-width: 70ch;
+}
+
+button:hover {
+  cursor: pointer;
 }
 
 header {
@@ -27,6 +57,7 @@ header {
   display: flex;
   flex-direction: column;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 header:hover {
@@ -43,6 +74,38 @@ header > div {
   align-self: flex-start;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+}
+
+.under-header {
+  display: flex;
+}
+
+header h1 {
+  margin-bottom: 0;
+}
+
+.fa-question-circle {
+  font-size: 2em;
+  margin: 0.5em;
+  transition: text-shadow 0.25s;
+}
+
+.fa-question-circle:hover {
+  text-shadow: crimson 0 0 0.1em;
+  cursor: pointer;
+}
+
+.nav {
+  color: black;
+  font-size: 1.8rem;
+  text-decoration: none;
+  transition: color 0.25s;
+  margin-left: -10.5em;
+}
+
+.nav:hover {
+  color: crimson;
 }
 
 .header-controls {
@@ -57,7 +120,22 @@ header > div {
 
 .header-controls:hover {
   background-color: rgba(200, 200, 200, 0.6);
-  text-decoration: underline;
+}
+
+.signing {
+  margin: 0;
+  align-self: flex-end;
+  font-size: 0.8rem;
+}
+
+.github {
+  font-size: 3rem;
+  color: black;
+  transition: color 0.3s;
+}
+
+.github:hover {
+  color: crimson;
 }
 
 .fa-chevron-down {
@@ -65,16 +143,17 @@ header > div {
   transition: transform 300ms;
 }
 
-.controls {
+.popup {
   background-color: white;
   padding: 2em;
   border-radius: 1em;
   box-shadow: rgb(37, 37, 37) 0.4em 0.4em 0.4em;
   display: flex;
   flex-direction: column;
+  max-width: 30em;
 }
 
-.controls button {
+.close-button {
   padding: 0.5em;
   background-color: rgb(226, 93, 69);
   border-radius: 0.4em;
@@ -83,12 +162,15 @@ header > div {
   align-self: flex-end;
 }
 
-.controls h3 {
+.popup h3 {
   margin: 0;
 }
 
-.controls-background {
-  all: unset;
+.popup p {
+  margin: 0 0 1em;
+}
+
+.popup-background {
   position: absolute;
   width: 100vw;
   height: 100vh;
@@ -100,4 +182,27 @@ header > div {
 
 .hide {
   display: none;
+}
+
+.about {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.return {
+  margin-top: 6em;
+}
+
+article {
+  margin: 1em;
+}
+
+.to-top {
+  margin: 4em;
+  text-decoration: none;
+}
+
+.to-top:hover {
+  color: rgb(179, 17, 49);
 }

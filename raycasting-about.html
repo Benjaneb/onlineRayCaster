@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Raycasting</title>
+    <link rel="icon" href="images/favicon.png" type="image/png">
+    <link rel="stylesheet" href="css/main.css">
+    <script src="https://kit.fontawesome.com/40670935a6.js" crossorigin="anonymous"></script>
+    <script src="js/main.js"></script>
+</head>
+<body>
+    <header>
+        <div>
+            <div class="under-header">
+                <h1>Online Raycaster</h1>
+                <i onclick="toggleNewUser()" class="far fa-question-circle"></i>
+                <p class="signing">By Benjamin Widman</p>
+            </div>
+            <a href="raycasting-about.html" class="nav">About Raycasting</a>
+            <a href="https://github.com/Benjaneb" target="_blank" class="github"><i class="fab fa-github"></i></a>
+        </div>
+        <i class="fas fa-chevron-down"></i>
+    </header>
+    <main class="about">
+        <noscript>Your browser does not support JavaScript.</noscript>
+        <div class="new-user popup-background hide">
+            <div class="popup">
+                <p>Hello there!👋</p>
+                <p>It seems you are new to this site, so let me introduce you.</p>
+                <p>This is an online raycaster written in JavaScript, with the help of the <a href="https://p5js.org/" target="_blank">P5 library</a>.</p>
+                <p>If you are curious about what a raycaster is, please read <a href="raycasting-about.html">my summary</a> of it.</p>
+                <button onclick="toggleNewUser()" class="close-button">Close</button>
+            </div>
+        </div>
+        <div>
+            <article>
+                <a href="index.html">
+                    <i class="fas fa-long-arrow-alt-left return"></i>
+                    <span>Return to the raycaster</span>
+                </a>
+                <h2>What is a raycaster?</h2>
+                <p>Raycasting is a technique of rendering a psuedo 3D world, meaning that it isn't real 3D but just a simulation of it.</p>
+                <p>
+                    In a nutshell, the way it works is that it, for every frame, sends out rays on a 2D plane from the player and detects if the rays hit a wall.
+                    If they do, they render a column on the screen with a height relative to how far away the wall was from the player.
+                    Thus, creating the illusion of a 3D world.
+                </p>
+                <img src="images/raycasting.gif" alt="Animation of how raycasting works">
+                <h3>Examples</h3>
+                <p>
+                    Raycasting has been used in a number of games back in the early 90's as that was as close to real 3D you would get when rendering in real time.
+                    Some examples are games like Doom (1993) and Wolfenstein 3D (1992).
+                </p>
+                <img src="images/ex_doom.png" alt="Image of Doom 1993" height="300">
+                <img src="images/ex_wolfenstein.jpg" alt="Image of Wolfenstein 3D" height="300">
+            </article>
+            <article>
+                <h2>The issues</h2>
+                <p>
+                    However, a number of issues can arise when creating such an engine, one of them being a fisheye effect.
+                    This happens when you send out rays with a fixed number of degrees between each of them as doing so makes the rays more spaced the further to the edges you get.
+                    To fix this you instead have an imaginary plane in front of the player where the rays have a fixed distance between each other, instead of an angle.
+                    Thus, rendering straight walls instead of ones with a fisheye effect.
+                </p>
+                <img src="images/fisheye_fix.png" alt="Image of fix to fisheye effect">
+                <p>
+                    Another issue that has more to do with JavaScript is that it is extremely difficult to draw each seperate pixel on the screen 
+                    by itself for every frame tenfolds of times every second in JavaScript due to it not being as effective as, e.g. C++.
+                    Another reason is that it isn't natively hardware accelerated either, 
+                    meaning that it runs entirely on the processor and not on any graphics card or integrated graphics unit.
+                </p>
+                <p>
+                    When creating a raycaster in JavaScript, you instead draw the columns with single rectangles.
+                    However, this seems like it would limit what you can do with the engine as you can no longer draw complex textures when the columns have to be the same color.
+                    You can still render textures by rendering columns of it at a time with the image function.
+                </p>
+            </article>
+        </div>
+        <a href="#" class="to-top">- To the top -</a>
+    </main>
+</body>
+</html>
