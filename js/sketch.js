@@ -18,7 +18,7 @@ let map =
 		['&', '.', '.', '.', '.', '.', '#', '.', '.', '.', '.', '.', '#', '#', '.', '.', '.', '#', '#', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '&'],
 		['&', '#', '#', '#', '#', '#', '#', '#', '#', '#', '.', '.', '#', '.', '.', '.', '.', '.', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '.', '#', '&'],
 		['&', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '&'],
-		['&', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '&'],
+		['&', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '0', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '&'],
 		['&', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '&'],
 		['&', '#', '.', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '.', '.', '.', '.', '.', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '&'],
 		['&', '.', '.', '.', '.', '#', '.', '%', '%', '%', '%', '.', '#', '#', '.', '.', '.', '#', '#', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '&'],
@@ -41,12 +41,26 @@ let mapHeight = map.length;
 let tileSize = 12;
 
 let player = {
-	x: mapWidth / 2.0,
+	x: mapWidth / 2.0 + 1,
 	y: mapHeight / 2.0,
 	angle: 0.0
 };
 let fov = 3.14159 / 4;
 let depth = 16;
+
+let img1;
+let img2;
+let img3;
+let img4;
+let img5;
+
+function preload() { // Runs once before startup
+	img1 = loadImage("./images/texture1.jpg");
+	img2 = loadImage("./images/texture2.jpg");
+	img3 = loadImage("./images/pavel.png");
+	img4 = loadImage("./images/happybabis.png");
+	img5 = loadImage("./images/fontän.png");
+}
 
 function setup() { // Runs once at startup
 	if(canvas.getContext) {
@@ -146,26 +160,27 @@ function Controls(cosAngle, sinAngle) {
 }
 
 function RayCaster(cosAngle, sinAngle) {
-	let punktY = depth;
-	let startX = -punktY;
-	let slutX = punktY;
+	let startX = -depth;
+	let slutX = depth;
 	let rayOrdning = 0;
 	let deltaX = slutX - startX;
+	let roteradRayY = 0;
 	// let rayY = Math.floor(player.y) + 1;
 
 	for(let x = startX; x < slutX; x += deltaX / window.innerWidth) {
 		rayOrdning++;
-		let rayLutning = x / punktY;
+		let rayLutning = x / depth;
 		let y = 0.0;
-		// let rotSlutpunktX = cosAngle * x - sinAngle * punktY + player.x;
-		// let rotSlutpunktY = sinAngle * x + cosAngle * punktY + player.y;
+		// let rotSlutpunktX = cosAngle * x - sinAngle * depth + player.x;
+		// let rotSlutpunktY = sinAngle * x + cosAngle * depth + player.y;
 		// let rayLutning = (rotSlutpunktY - player.y) / (rotSlutpunktX - player.x);
 
-		while(y < punktY) {
+		while(y < depth) {
 			let rayX = rayLutning * y;
 			let rayY = y;
 			let roteradRayX = cosAngle * rayX - sinAngle * rayY + player.x;
-			let roteradRayY = sinAngle * rayX + cosAngle * rayY + player.y;
+			let tempRayY = roteradRayY;
+			roteradRayY = sinAngle * rayX + cosAngle * rayY + player.y;
 			y += 0.02;
 
 			if(roteradRayX >= 0 && roteradRayX < mapWidth && roteradRayY >= 0 && roteradRayY < mapHeight) {
@@ -175,22 +190,30 @@ function RayCaster(cosAngle, sinAngle) {
 					let kollumnStartY = window.innerHeight / 2 - kollumnLängd / 2;
 					let kollumnSlutY = kollumnStartY + kollumnLängd;
 
-					if(kollumnSlutY > window.innerHeight) {
-						kollumnSlutY = window.innerHeight;
-					}
-					if(kollumnStartY < 0) {
-						kollumnStartY = 0;
-					}
-					let c = [255, 255, 255];
+					// let c = [255, 255, 255];
+					let img = img1;
 					switch(map[Math.floor(roteradRayY)][Math.floor(roteradRayX)]) {
-						case '&': c = [161, 98, 56]; break;
-						case '%': c = [130, 130, 130]; break;
-						case '0': c = [72, 212, 205]; break;
+						// case '&': c = [161, 98, 56]; break;
+						// case '%': c = [130, 130, 130]; break;
+						// case '0': c = [72, 212, 205]; break;
+						case '&': img = img2; break;
+						case '%': img = img3; break;
+						case '0': img = img5; break;
 					}
-					c[0] /= (avståndPlayerVägg * 0.5 + 1);
-					c[1] /= (avståndPlayerVägg * 0.5 + 1);
-					c[2] /= (avståndPlayerVägg * 0.5 + 1);
-					fill(c[0], c[1], c[2]);
+					// c[0] /= (avståndPlayerVägg * 0.5 + 1);
+					// c[1] /= (avståndPlayerVägg * 0.5 + 1);
+					// c[2] /= (avståndPlayerVägg * 0.5 + 1);
+					//fill(c[0], c[1], c[2]);
+					//rect(rayOrdning, kollumnStartY, 1, kollumnLängd);
+					let imgX;
+					if(Math.floor(tempRayY) === Math.floor(roteradRayY))
+						imgX = Math.round((roteradRayY - Math.floor(roteradRayY)) * img.width);
+					else
+						imgX = Math.round((roteradRayX - Math.floor(roteradRayX)) * img.width);
+					image(img, rayOrdning, kollumnStartY, 1, kollumnLängd, imgX, 0, 1, img.width);
+
+					// Sigmoid-funktion för shading: (2 * övreGräns) / (2^(-0.25 * avståndPlayerVägg) + 1) - övreGräns
+					fill(0, (2 * 255) / (2 ** (-0.3 * avståndPlayerVägg) + 1) - 255);
 					rect(rayOrdning, kollumnStartY, 1, kollumnLängd);
 					miniMapRays(roteradRayX, roteradRayY);
 					break;
@@ -198,7 +221,7 @@ function RayCaster(cosAngle, sinAngle) {
 			}
 		}
 	}
-	// console.log("frame, " + player.x + " " + player.y + " " + Math.round(1 / (deltaTime / 1000)));
+	console.log("frame, " + player.x + " " + player.y + " " + Math.round(1 / (deltaTime / 1000)));
 }
 
 function miniMapRays(roteradRayX, roteradRayY) {
