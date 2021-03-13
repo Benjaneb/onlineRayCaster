@@ -235,10 +235,14 @@ function miniMap() {
 
 function saveData() {
 	window.addEventListener("beforeunload", () => {
-		localStorage.setItem("PLAYER", JSON.stringify(player));
+		localStorage.setItem("PLAYERX", JSON.stringify(playerX));
+		localStorage.setItem("PLAYERY", JSON.stringify(playerY));
+		localStorage.setItem("PLAYERANGLE", JSON.stringify(playerAngle));
 	});
 }
 
 function loadData() {
-	player = JSON.parse(localStorage.getItem("PLAYER"));
+	playerX = JSON.parse(localStorage.getItem("PLAYERX"));
+	playerY = JSON.parse(localStorage.getItem("PLAYERY"));
+	playerAngle = JSON.parse(localStorage.getItem("PLAYERANGLE"));
 }
