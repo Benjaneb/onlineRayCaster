@@ -40,7 +40,9 @@ const mapWidth = map[0].length;
 const mapHeight = map.length;
 const tileSize = 12;
 
-let player;
+let playerX = mapWidth / 2 + 1;
+let playerY = mapHeight / 2;
+let playerAngle = 0;
 const depth = 20;
 
 let img1;
@@ -61,11 +63,6 @@ function setup() { // Runs once at startup
 	} else {
 		document.querySelector("#noSupport").classList.toggle("hide");
 	}
-	player = {
-		x: mapWidth / 2 + 1,
-		y: mapHeight / 2,
-		angle: 0
-	};
 	noStroke();
 	loadData();
 	draw();
@@ -73,8 +70,8 @@ function setup() { // Runs once at startup
 }
 
 function draw() { // Loop
-	let cosAngle = Math.cos(player.angle);
-	let sinAngle = Math.sin(player.angle);
+	let cosAngle = Math.cos(playerAngle);
+	let sinAngle = Math.sin(playerAngle);
 	if(playGame) {
 		floorCeiling();
 		controls(cosAngle, sinAngle);
@@ -98,26 +95,26 @@ function controls(cosAngle, sinAngle) {
 
 	// Controls
 	if(keyIsDown(87)) {
-		player.x += rotForwardX;
-		player.y += rotForwardY;
+		playerX += rotForwardX;
+		playerY += rotForwardY;
 	}
 	if(keyIsDown(65)) {
-		player.x -= rotRightX;
-		player.y -= rotRightY;
+		playerX -= rotRightX;
+		playerY -= rotRightY;
 	}
 	if(keyIsDown(83)) {
-		player.x -= rotForwardX;
-		player.y -= rotForwardY;
+		playerX -= rotForwardX;
+		playerY -= rotForwardY;
 	}
 	if(keyIsDown(68)) {
-		player.x += rotRightX;
-		player.y += rotRightY;
+		playerX += rotRightX;
+		playerY += rotRightY;
 	}
 	if(keyIsDown(LEFT_ARROW)) {
-		player.angle += turnSpeed;
+		playerAngle += turnSpeed;
 	}
 	if(keyIsDown(RIGHT_ARROW)) {
-		player.angle -= turnSpeed;
+		playerAngle -= turnSpeed;
 	}
 }
 
@@ -136,14 +133,14 @@ function rayCaster(cosAngle, sinAngle) { // DDA algorithm
 		let rayLutningY = rotSlutpunktY / rotSlutpunktX;
 		let rayDirX = rotSlutpunktX / Math.abs(rotSlutpunktX);
 		let rayDirY = rotSlutpunktY / Math.abs(rotSlutpunktY);
-		rotSlutpunktX += player.x;
-		rotSlutpunktY += player.y;
-		let rayX = player.x;
-		let rayY = player.y;
+		rotSlutpunktX += playerX;
+		rotSlutpunktY += playerY;
+		let rayX = playerX;
+		let rayY = playerY;
 		let diffX = 0;
 		let diffY = 0;
-		let floorRayX = Math.floor(player.x);
-		let floorRayY = Math.floor(player.y);
+		let floorRayX = Math.floor(playerX);
+		let floorRayY = Math.floor(playerY);
 		
 		for(let stepCount = 0; stepCount < depth; stepCount++) {
 			// Check ray direction
@@ -170,7 +167,7 @@ function rayCaster(cosAngle, sinAngle) { // DDA algorithm
 			
 			if(floorRayX >= 0 && floorRayX < mapWidth && floorRayY >= 0 && floorRayY < mapHeight) {
 				if(map[floorRayY][floorRayX] != '.') {
-					let rayLength = Math.sqrt((rayX - player.x) ** 2 + (rayY - player.y) ** 2);
+					let rayLength = Math.sqrt((rayX - playerX) ** 2 + (rayY - playerY) ** 2);
 					let avståndPlayerVägg = rayLength / depthHyp * depth;
 					let kollumnLängd = window.innerHeight / avståndPlayerVägg;
 					let kollumnStartY = window.innerHeight / 2 - kollumnLängd / 2;
@@ -214,7 +211,7 @@ function floorCeiling() {
 function miniMapRays(rayX, rayY) {
 	stroke(150, 0, 0);
 	strokeWeight(1);
-	line(player.x * tileSize, player.y * tileSize, rayX * tileSize, rayY * tileSize);
+	line(playerX * tileSize, playerY * tileSize, rayX * tileSize, rayY * tileSize);
 	noStroke();
 }
 
@@ -232,7 +229,7 @@ function miniMap() {
 	}
 	stroke(200, 0, 0);
 	strokeWeight(10);
-	point(player.x * tileSize, player.y * tileSize);
+	point(playerX * tileSize, playerY * tileSize);
 	noStroke();
 }
 
