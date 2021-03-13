@@ -40,11 +40,7 @@ const mapWidth = map[0].length;
 const mapHeight = map.length;
 const tileSize = 12;
 
-let player = {
-	x: mapWidth / 2 + 1,
-	y: mapHeight / 2,
-	angle: 0
-};
+let player;
 const depth = 20;
 
 let img1;
@@ -65,6 +61,11 @@ function setup() { // Runs once at startup
 	} else {
 		document.querySelector("#noSupport").classList.toggle("hide");
 	}
+	player = {
+		x: mapWidth / 2 + 1,
+		y: mapHeight / 2,
+		angle: 0
+	};
 	noStroke();
 	loadData();
 	draw();
