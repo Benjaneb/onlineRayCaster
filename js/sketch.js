@@ -242,7 +242,9 @@ function saveData() {
 }
 
 function loadData() {
-	playerX = JSON.parse(localStorage.getItem("PLAYERX"));
-	playerY = JSON.parse(localStorage.getItem("PLAYERY"));
-	playerAngle = JSON.parse(localStorage.getItem("PLAYERANGLE"));
+	if(JSON.parse(localStorage.getItem("PLAYERX")) !== null) {
+		playerX = JSON.parse(localStorage.getItem("PLAYERX"));
+		playerY = JSON.parse(localStorage.getItem("PLAYERY"));
+		playerAngle = JSON.parse(localStorage.getItem("PLAYERANGLE"));
+	}
 }
