@@ -3,6 +3,7 @@
 :root {
   font-size: 18px;
   font-family: "Roboto Mono";
+  scroll-behavior: smooth;
 }
 
 * {
@@ -50,9 +51,9 @@ button:hover {
 header {
   width: 100vw;
   position: absolute;
-  background-color: rgba(200, 200, 200, 0.5);
-  box-shadow: 0 1em 1.5em rgba(200, 200, 200, 0.5);
-  margin-top: -5.5em;
+  background-color: rgba(200, 200, 200, 0.8);
+  box-shadow: 0 1em 1.5em rgba(200, 200, 200, 0.8);
+  margin-top: -6.3em;
   transition: margin-top 300ms;
   display: flex;
   flex-direction: column;
@@ -79,6 +80,11 @@ header > div {
 
 .under-header {
   display: flex;
+  flex-direction: column;
+}
+
+.under-header > div {
+  display: flex;
 }
 
 header h1 {
@@ -96,12 +102,17 @@ header h1 {
   cursor: pointer;
 }
 
+.signing {
+  margin: 0;
+  align-self: flex-end;
+}
+
 .nav {
   color: black;
   font-size: 1.8rem;
   text-decoration: none;
   transition: color 0.25s;
-  margin-left: -10.5em;
+  margin-left: -6em;
 }
 
 .nav:hover {
@@ -120,12 +131,6 @@ header h1 {
 
 .header-controls:hover {
   background-color: rgba(200, 200, 200, 0.6);
-}
-
-.signing {
-  margin: 0;
-  align-self: flex-end;
-  font-size: 0.8rem;
 }
 
 .github {

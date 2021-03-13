@@ -1,6 +1,6 @@
 "using strict";
 
-let map =
+const map =
 	[
 		['&', '&', '&', '&', '&', '&', '&', '&', '&', '&', '&', '&', '&', '&', '&', '&', '&', '&', '&', '&', '&', '&', '&', '&', '&', '&', '&', '&', '&', '&', '&', '&'],
 		['&', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '#', '.', '.', '.', '#', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '&'],
@@ -36,40 +36,37 @@ let map =
 		['&', '&', '&', '&', '&', '&', '&', '&', '&', '&', '&', '&', '&', '&', '&', '.', '&', '&', '&', '&', '&', '&', '&', '&', '&', '&', '&', '&', '&', '&', '&', '&']
 	];
 
-let mapWidth = map[0].length;
-let mapHeight = map.length;
-let tileSize = 12;
+const mapWidth = map[0].length;
+const mapHeight = map.length;
+const tileSize = 12;
 
 let player = {
-	x: mapWidth / 2.0 + 1,
-	y: mapHeight / 2.0,
-	angle: 0.0
+	x: mapWidth / 2 + 1,
+	y: mapHeight / 2,
+	angle: 0
 };
-let fov = 3.14159 / 4;
-let depth = 16;
+const depth = 20;
 
 let img1;
 let img2;
 let img3;
 let img4;
-let img5;
 
 function preload() { // Runs once before startup
 	img1 = loadImage("./images/texture1.jpg");
 	img2 = loadImage("./images/texture2.jpg");
 	img3 = loadImage("./images/pavel.png");
-	img4 = loadImage("./images/happybabis.png");
-	img5 = loadImage("./images/fontän.png");
+	img4 = loadImage("./images/fontän.png");
 }
 
 function setup() { // Runs once at startup
-	if(canvas.getContext) {
+	if(canvas.getContext) { // Check if canvas is supported by browser
 		createCanvas(window.innerWidth, window.innerHeight);
 	} else {
 		document.querySelector("#noSupport").classList.toggle("hide");
 	}
 	noStroke();
-	//loadData();
+	loadData();
 	draw();
 	checkUser();
 }
@@ -78,71 +75,42 @@ function draw() { // Loop
 	let cosAngle = Math.cos(player.angle);
 	let sinAngle = Math.sin(player.angle);
 	if(playGame) {
-		background(0);
-		Controls(cosAngle, sinAngle);
-		RayCaster(cosAngle, sinAngle);
+		floorCeiling();
+		controls(cosAngle, sinAngle);
+		rayCaster(cosAngle, sinAngle);
 		miniMap();
 	}
-	//saveData();
+	saveData();
 }
 
 function windowResized() { // Runs if the window gets resized
   	resizeCanvas(window.innerWidth, window.innerHeight);
 }
 
-function Controls(cosAngle, sinAngle) {
+function controls(cosAngle, sinAngle) {
 	let speed = 3.5 * (deltaTime / 1000);
 	let turnSpeed = 2.5 * (deltaTime / 1000);
-	let forwardX = 0;
-	let forwardY = speed;
-	let rightX = speed;
-	let rightY = 0;
-	let rotForwardX = cosAngle * forwardX - sinAngle * forwardY;
-	let rotForwardY = sinAngle * forwardX + cosAngle * forwardY;
-	// let rotBackwardX = -1 * (cosAngle * forwardX - sinAngle * forwardY);
-	// let rotBackwardY = -1 * (sinAngle * forwardX + cosAngle * forwardY);
-	let rotRightX = cosAngle * rightX - sinAngle * rightY;
-	let rotRightY = sinAngle * rightX + cosAngle * rightY;
-	// let rotLeftX = -1 * (cosAngle * rightX - sinAngle * rightY);
-	// let rotLeftY = -1 * (sinAngle * rightX + cosAngle * rightY);
-	let hitBoxRad = 0.4;
-	let colForwardX = cosAngle * hitBoxRad;
-	let colForwardY = sinAngle * hitBoxRad;
-	let colRightX = sinAngle * hitBoxRad;
-	let colRightY = cosAngle * hitBoxRad;
+	let rotForwardX = -sinAngle * speed;
+	let rotForwardY = cosAngle * speed;
+	let rotRightX = cosAngle * speed;
+	let rotRightY = sinAngle * speed;
 
 	// Controls
 	if(keyIsDown(87)) {
-		// if(map[Math.floor(player.y)][Math.floor(player.x + colForwardX)] == '.') {
-        	player.x += rotForwardX;
-    	// }
-    	// if(map[Math.floor(player.y + colForwardY)][Math.floor(player.x)] == '.') {
-        	player.y += rotForwardY;
-    	// }
+		player.x += rotForwardX;
+		player.y += rotForwardY;
 	}
 	if(keyIsDown(65)) {
-		// if(map[Math.floor(player.y)][Math.floor(player.x - colRightX)] == '.') {
-			player.x -= rotRightX;
-    	// }
-    	// if(map[Math.floor(player.y - colRightY)][Math.floor(player.x)] == '.') {
-			player.y -= rotRightY;
-    	// }
+		player.x -= rotRightX;
+		player.y -= rotRightY;
 	}
 	if(keyIsDown(83)) {
-		// if(map[Math.floor(player.y)][Math.floor(player.x - colForwardX)] == '.') {
-			player.x -= rotForwardX;
-    	// }
-    	// if(map[Math.floor(player.y - colForwardY)][Math.floor(player.x)] == '.') {
-			player.y -= rotForwardY;
-    	// }
+		player.x -= rotForwardX;
+		player.y -= rotForwardY;
 	}
 	if(keyIsDown(68)) {
-		// if(map[Math.floor(player.y)][Math.floor(player.x + colRightX)] == '.') {
-			player.x += rotRightX;
-    	// }
-    	// if(map[Math.floor(player.y + colRightY)][Math.floor(player.x)] == '.') {
-			player.y += rotRightY;
-    	// }
+		player.x += rotRightX;
+		player.y += rotRightY;
 	}
 	if(keyIsDown(LEFT_ARROW)) {
 		player.angle += turnSpeed;
@@ -150,84 +118,102 @@ function Controls(cosAngle, sinAngle) {
 	if(keyIsDown(RIGHT_ARROW)) {
 		player.angle -= turnSpeed;
 	}
-
-	// Collision detection
-	// for(let i = 0; i < 8; i++) {
-	// 	if(map[Math.floor(player.y)][Math.floor(player.x + hitBoxRad)] == '.') {
-	// 		player.x -= hitBoxRad - (Math.floor(player.x + 1) - player.x);
-	// 	}
-	// }
 }
 
-function RayCaster(cosAngle, sinAngle) {
+function rayCaster(cosAngle, sinAngle) { // DDA algorithm
 	let startX = -depth;
 	let slutX = depth;
-	let rayOrdning = 0;
 	let deltaX = slutX - startX;
-	let roteradRayY = 0;
-	// let rayY = Math.floor(player.y) + 1;
-
+	let rayOrdning = 0;
+	
 	for(let x = startX; x < slutX; x += deltaX / window.innerWidth) {
+		let depthHyp = Math.sqrt(depth ** 2 + x ** 2);
 		rayOrdning++;
-		let rayLutning = x / depth;
-		let y = 0.0;
-		// let rotSlutpunktX = cosAngle * x - sinAngle * depth + player.x;
-		// let rotSlutpunktY = sinAngle * x + cosAngle * depth + player.y;
-		// let rayLutning = (rotSlutpunktY - player.y) / (rotSlutpunktX - player.x);
-
-		while(y < depth) {
-			let rayX = rayLutning * y;
-			let rayY = y;
-			let roteradRayX = cosAngle * rayX - sinAngle * rayY + player.x;
-			let tempRayY = roteradRayY;
-			roteradRayY = sinAngle * rayX + cosAngle * rayY + player.y;
-			y += 0.02;
-
-			if(roteradRayX >= 0 && roteradRayX < mapWidth && roteradRayY >= 0 && roteradRayY < mapHeight) {
-				if(map[Math.floor(roteradRayY)][Math.floor(roteradRayX)] != '.') {
-					let avståndPlayerVägg = y;
+		let rotSlutpunktX = cosAngle * x - sinAngle * depth;
+		let rotSlutpunktY = sinAngle * x + cosAngle * depth;
+		let rayLutningX = rotSlutpunktX / rotSlutpunktY;
+		let rayLutningY = rotSlutpunktY / rotSlutpunktX;
+		let rayDirX = rotSlutpunktX / Math.abs(rotSlutpunktX);
+		let rayDirY = rotSlutpunktY / Math.abs(rotSlutpunktY);
+		rotSlutpunktX += player.x;
+		rotSlutpunktY += player.y;
+		let rayX = player.x;
+		let rayY = player.y;
+		let diffX = 0;
+		let diffY = 0;
+		let floorRayX = Math.floor(player.x);
+		let floorRayY = Math.floor(player.y);
+		
+		for(let stepCount = 0; stepCount < depth; stepCount++) {
+			// Check ray direction
+			if(rayDirX === 1) {
+				diffX = Math.floor(rayX) + rayDirX - rayX;
+			} else {
+				diffX = Math.ceil(rayX) + rayDirX - rayX;
+			}
+			if(rayDirY === 1) {
+				diffY = Math.floor(rayY) + rayDirY - rayY;
+			} else {
+				diffY = Math.ceil(rayY) + rayDirY - rayY;
+			}
+			
+			if(diffY ** 2 + (diffY * rayLutningX) ** 2 < diffX ** 2 + (diffX * rayLutningY) ** 2) {
+				rayY += diffY;
+				rayX += diffY * rayLutningX;
+				floorRayY += rayDirY;
+			} else {
+				rayX += diffX;
+				rayY += diffX * rayLutningY;
+				floorRayX += rayDirX;
+			}
+			
+			if(floorRayX >= 0 && floorRayX < mapWidth && floorRayY >= 0 && floorRayY < mapHeight) {
+				if(map[floorRayY][floorRayX] != '.') {
+					let rayLength = Math.sqrt((rayX - player.x) ** 2 + (rayY - player.y) ** 2);
+					let avståndPlayerVägg = rayLength / depthHyp * depth;
 					let kollumnLängd = window.innerHeight / avståndPlayerVägg;
 					let kollumnStartY = window.innerHeight / 2 - kollumnLängd / 2;
-					let kollumnSlutY = kollumnStartY + kollumnLängd;
 
-					// let c = [255, 255, 255];
+					// Texture choice
 					let img = img1;
-					switch(map[Math.floor(roteradRayY)][Math.floor(roteradRayX)]) {
-						// case '&': c = [161, 98, 56]; break;
-						// case '%': c = [130, 130, 130]; break;
-						// case '0': c = [72, 212, 205]; break;
+					switch(map[floorRayY][floorRayX]) {
 						case '&': img = img2; break;
 						case '%': img = img3; break;
-						case '0': img = img5; break;
+						case '0': img = img4; break;
 					}
-					// c[0] /= (avståndPlayerVägg * 0.5 + 1);
-					// c[1] /= (avståndPlayerVägg * 0.5 + 1);
-					// c[2] /= (avståndPlayerVägg * 0.5 + 1);
-					//fill(c[0], c[1], c[2]);
-					//rect(rayOrdning, kollumnStartY, 1, kollumnLängd);
+
+					// Finding what part of the image to render
 					let imgX;
-					if(Math.floor(tempRayY) === Math.floor(roteradRayY))
-						imgX = Math.round((roteradRayY - Math.floor(roteradRayY)) * img.width);
-					else
-						imgX = Math.round((roteradRayX - Math.floor(roteradRayX)) * img.width);
+					if(Math.floor(rayX) === rayX)
+						imgX = Math.round((rayY - Math.floor(rayY)) * img.width);
+					else imgX = Math.round((rayX - Math.floor(rayX)) * img.width);
+
+					// Render
 					image(img, rayOrdning, kollumnStartY, 1, kollumnLängd, imgX, 0, 1, img.width);
 
-					// Sigmoid-funktion för shading: (2 * övreGräns) / (2^(-0.25 * avståndPlayerVägg) + 1) - övreGräns
-					fill(0, (2 * 255) / (2 ** (-0.3 * avståndPlayerVägg) + 1) - 255);
+					// Sigmoid-function for shading: (2 * övreGräns) / (2^(-k * avståndPlayerVägg) + 1) - övreGräns
+					fill(0, (2 * 255) / (2 ** (-0.4 * avståndPlayerVägg) + 1) - 255);
 					rect(rayOrdning, kollumnStartY, 1, kollumnLängd);
-					miniMapRays(roteradRayX, roteradRayY);
+					
+					miniMapRays(rayX, rayY);
 					break;
 				}
 			}
 		}
 	}
-	console.log("frame, " + player.x + " " + player.y + " " + Math.round(1 / (deltaTime / 1000)));
 }
 
-function miniMapRays(roteradRayX, roteradRayY) {
+function floorCeiling() {
+	for(let i = 0; i < window.innerHeight; i++) {
+		fill(Math.abs(i / 5 - window.innerHeight / 10));
+		rect(0, i, window.innerWidth, 1);
+	}
+}
+
+function miniMapRays(rayX, rayY) {
 	stroke(150, 0, 0);
 	strokeWeight(1);
-	line(player.x * tileSize, player.y * tileSize, roteradRayX * tileSize, roteradRayY * tileSize);
+	line(player.x * tileSize, player.y * tileSize, rayX * tileSize, rayY * tileSize);
 	noStroke();
 }
 
@@ -251,10 +237,10 @@ function miniMap() {
 
 function saveData() {
 	window.addEventListener("beforeunload", () => {
-		localStorage.setItem("player", JSON.stringify(player));
+		localStorage.setItem("PLAYER", JSON.stringify(player));
 	});
 }
 
 function loadData() {
-	player = JSON.parse(localStorage.getItem("player"));
+	player = JSON.parse(localStorage.getItem("PLAYER"));
 }
