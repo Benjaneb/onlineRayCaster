@@ -39,6 +39,7 @@ const map =
 const mapWidth = map[0].length;
 const mapHeight = map.length;
 const tileSize = 12;
+let drawMap = true;
 
 let playerX = mapWidth / 2 + 1;
 let playerY = mapHeight / 2;
@@ -76,7 +77,7 @@ function draw() { // Loop
 		floorCeiling();
 		controls(cosAngle, sinAngle);
 		rayCaster(cosAngle, sinAngle);
-		miniMap();
+		if(drawMap) miniMap();
 	}
 	saveData();
 }
@@ -115,6 +116,13 @@ function controls(cosAngle, sinAngle) {
 	}
 	if(keyIsDown(RIGHT_ARROW)) {
 		playerAngle -= turnSpeed;
+	}
+}
+
+function keyPressed() { // Toggle map
+	if(key === 'm' || key === 'M') {
+		if(drawMap) drawMap = false;
+		else drawMap = true;
 	}
 }
 
@@ -193,7 +201,7 @@ function rayCaster(cosAngle, sinAngle) { // DDA algorithm
 					fill(0, (2 * 255) / (2 ** (-0.4 * avståndPlayerVägg) + 1) - 255);
 					rect(rayOrdning, kollumnStartY, 1, kollumnLängd);
 					
-					miniMapRays(rayX, rayY);
+					if(drawMap) miniMapRays(rayX, rayY);
 					break;
 				}
 			}
